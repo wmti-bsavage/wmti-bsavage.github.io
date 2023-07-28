@@ -89,7 +89,7 @@
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <button id="helloButton">Change Links</button>
     <a href="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx">Quote Link</a>
-    <p id="link">Test 2</p>
+    <p id="link">Test 1</p>
 
 </body>
 
@@ -138,17 +138,16 @@
             }
         );*/
 
-        var body = Office.context.mailbox.item.body;
-        // Get the body as text
-        body.getAsync(Office.CoercionType.Text, function (asyncResult) {
-            if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
-                // do something with the error
+        let body = '';
+        body = Office.context.mailbox.item.body.getAsync(
+            "text",
+            function (result) {
+                if (result.status === Office.AsyncResultStatus.Succeeded) {
+                    body = result.value;
+                }
             }
-            else {
-                $('.result').html(asyncResult.value);
-                document.getElementById("link").innerHTML = asyncResult.value;
-            }
-        });
+        );
+        console.log(body);
 
     }
 
