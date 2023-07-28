@@ -1,5 +1,4 @@
-﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -60,94 +59,16 @@
             }
         );*/
 
-        /*        var body = Office.context.mailbox.item.body;
-                // Get the body as text
-                body.getAsync(Office.CoercionType.Text, function (asyncResult) {
-                    if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
-                        // do something with the error
-                    }
-                    else {
-                        $('.result').html(asyncResult.value);
-                    }
-                });*/
-
-        document.getElementById("link").innerHTML = "Yes";
-
-
-    }
-
-</script><!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
-<!DOCTYPE html>
-<html>
-
-<head>
-    <!-- Office JavaScript API -->
-    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-</head>
-
-<body>
-    <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
-    <button id="helloButton">Change Links</button>
-    <a href="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx">Quote Link</a>
-    <p id="link">Test 1</p>
-
-</body>
-
-</html>
-
-<script>
-
-    Office.initialize = function (reason) {
-        $(function () {
-
-            // Set up ItemChanged event
-            Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
-
-            UpdateTaskPaneUI(Office.context.mailbox.item);
-        });
-    };
-
-    function itemChanged(eventArgs) {
-        // Update UI based on the new current item
-        UpdateTaskPaneUI(Office.context.mailbox.item);
-    }
-
-    Office.onReady((info) => {
-        if (info.host === Office.HostType.Outlook) {
-            document.getElementById("helloButton").onclick = sayHello;
-        }
-    });
-
-    /**
-     * Writes 'Hello world!' to a new message body.
-     */
-    function sayHello() {
-
-        /*Office.context.mailbox.item.body.setAsync(
-            "Hello world!",
-            {
-                coercionType: "html", // Write text as HTML
-            },
-
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-                if (asyncResult.status ==
-                    Office.AsyncResultStatus.Failed) {
-                    write(asyncResult.error.message);
+        let body = '';
+        body = Office.context.mailbox.item.body.getAsync(
+            "text",
+            function (result) {
+                if (result.status === Office.AsyncResultStatus.Succeeded) {
+                    body = result.value;
                 }
             }
-        );*/
-
-        // let body = '';
-        // body = Office.context.mailbox.item.body.getAsync(
-        //     "text",
-        //     function (result) {
-        //         if (result.status === Office.AsyncResultStatus.Succeeded) {
-        //             body = result.value;
-        //         }
-        //     }
-        // );
-        // console.log(body);
+        );
+        console.log(body);
 
     }
 
