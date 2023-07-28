@@ -11,13 +11,28 @@
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <button id="helloButton">Change Links</button>
     <a href ="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx">Quote Link</a>
-    <p id="link">Test:</p>
+    <p id="updatedLink"></p>
 
 </body>
 
 </html>
 
 <script>
+
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+
+            // Set up ItemChanged event
+            Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
+
+            UpdateTaskPaneUI(Office.context.mailbox.item);
+        });
+    };
+
+    function itemChanged(eventArgs) {
+        // Update UI based on the new current item
+        UpdateTaskPaneUI(Office.context.mailbox.item);
+    }
 
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
@@ -45,7 +60,7 @@
             }
         );*/
 
-/*        var body = Office.context.mailbox.item.body;
+        var body = Office.context.mailbox.item.body;
         // Get the body as text
         body.getAsync(Office.CoercionType.Text, function (asyncResult) {
             if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
@@ -54,9 +69,9 @@
             else {
                 $('.result').html(asyncResult.value);
             }
-        });*/
+        });
 
-        document.getElementById("link").innerHTML = "Yes";
+        document.getElementById("updatedLink").innerHTML = $('.result');
 
         
     }
