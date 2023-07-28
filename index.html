@@ -10,10 +10,9 @@
 <body>
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <button id="helloButton">Change Links</button>
-    <a href ="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany%20Engineered%20Composites\Steel\2023\23-1106%20Rev2%20Zodiac%20767%20tooling.xlsx">Quote Link 2</a>
+    <a href ="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx">Quote Link</a>
+    <p id="updatedLink"></p>
 
-    <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
-    <img src="https://webermfg.ca/wp-content/uploads/2015/05/cropped-Webpage-Logo-3.png" />
 </body>
 
 </html>
@@ -31,7 +30,7 @@
      */
     function sayHello() {
 
-        Office.context.mailbox.item.body.setAsync(
+        /*Office.context.mailbox.item.body.setAsync(
             "Hello world!",
             {
                 coercionType: "html", // Write text as HTML
@@ -44,9 +43,9 @@
                     write(asyncResult.error.message);
                 }
             }
-        );
+        );*/
 
-        var body = Office.context.mailbox.item.body;
+/*        var body = Office.context.mailbox.item.body;
         // Get the body as text
         body.getAsync(Office.CoercionType.Text, function (asyncResult) {
             if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
@@ -55,22 +54,11 @@
             else {
                 $('.result').html(asyncResult.value);
             }
-        });
+        });*/
 
-        Office.context.mailbox.item.body.setAsync(
-            ".result",
-            {
-                coercionType: "html", // Write text as HTML
-            },
+        document.getElementById("updatedLink").innerHTML = "Test";
 
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-                if (asyncResult.status ==
-                    Office.AsyncResultStatus.Failed) {
-                    write(asyncResult.error.message);
-                }
-            }
-        );
+        
     }
 
 </script>
