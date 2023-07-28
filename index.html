@@ -138,16 +138,16 @@
             }
         );*/
 
-        let body = '';
-        body = Office.context.mailbox.item.body.getAsync(
-            "text",
-            function (result) {
-                if (result.status === Office.AsyncResultStatus.Succeeded) {
-                    body = result.value;
-                }
-            }
-        );
-        console.log(body);
+        // let body = '';
+        // body = Office.context.mailbox.item.body.getAsync(
+        //     "text",
+        //     function (result) {
+        //         if (result.status === Office.AsyncResultStatus.Succeeded) {
+        //             body = result.value;
+        //         }
+        //     }
+        // );
+        // console.log(body);
 
     }
 
