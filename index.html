@@ -20,7 +20,7 @@
 <script>
 
 Office.initialize = function (reason) {
-        $(document).ready(function () {
+        $(function () {
 
             // Set up ItemChanged event
             Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
