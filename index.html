@@ -37,6 +37,7 @@
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
             document.getElementById("helloButton").onclick = sayHello;
+            console.log("Outlook instance detected...");
         }
     });
 
@@ -44,6 +45,8 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
+
+        console.log("Button triggered...");
 
         /*Office.context.mailbox.item.body.setAsync(
             "Hello world!",
