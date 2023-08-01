@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <p>V0.11 - Event-based pane updating based on email selection</p>
+    <p>V0.12</p>
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <a href="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx"></a>
     <p id="link"></p>
@@ -31,13 +31,24 @@
             
             var body = Office.context.mailbox.item.body;
             // Get the body as text
-            body.getAsync(Office.CoercionType.Text, function (asyncResult) {
-                if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
+            body.getAsync(Office.CoercionType.Text, function (asyncResult) 
+            {
+                if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) 
+                {
                     // do something with the error
                 }
-                else {
-                    //$('.result').html(asyncResult.value);
-                    document.getElementById("link").innerHTML = asyncResult.value;
+                else 
+                {    
+                    var result = asyncResult.value;
+                    
+                    if(result.includes("Sales&Quoteing"))
+                    {
+                        document.getElementById("link").innerHTML = asyncResult.value;
+                    }
+                    else
+                    {
+                        document.getElementById("link").innerHTML = "No match found."
+                    }
                 }
             });
         }
