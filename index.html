@@ -20,26 +20,24 @@
 
 <script>
 
-    
+    Office.initialize = function (reason) {
+    $(function () {
+
+        // Set up ItemChanged event
+        Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
+
+        UpdateTaskPaneUI(Office.context.mailbox.item);
+    });
+    };
+
+    function itemChanged(eventArgs) {
+
+        // Update UI based on the new current item
+        UpdateTaskPaneUI(Office.context.mailbox.item);
+    }
 
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
-
-            Office.initialize = function (reason) {
-            $(function () {
-
-                // Set up ItemChanged event
-                Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
-
-                UpdateTaskPaneUI(Office.context.mailbox.item);
-            });
-            };
-
-            function itemChanged(eventArgs) {
-
-                // Update UI based on the new current item
-                UpdateTaskPaneUI(Office.context.mailbox.item);
-            }
 
             var body = Office.context.mailbox.item.body;
             // Get the body as text
