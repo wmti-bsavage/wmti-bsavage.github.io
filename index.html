@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <p>V1.002</p>
+    <p>V1.000</p>
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <button id="helloButton">Change Links</button>
     <a href="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx">Quote Link</a>
@@ -20,21 +20,21 @@
 
 <script>
 
-    Office.initialize = function (reason) {
-        $(function () {
+    // Office.initialize = function (reason) {
+    //     $(function () {
 
-            // Set up ItemChanged event
-            Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
+    //         // Set up ItemChanged event
+    //         Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChanged);
 
-            UpdateTaskPaneUI(Office.context.mailbox.item);
-        });
-    };
+    //         UpdateTaskPaneUI(Office.context.mailbox.item);
+    //     });
+    // };
 
-    function itemChanged(eventArgs) {
+    // function itemChanged(eventArgs) {
 
-        // Update UI based on the new current item
-        UpdateTaskPaneUI(Office.context.mailbox.item);
-    }
+    //     // Update UI based on the new current item
+    //     UpdateTaskPaneUI(Office.context.mailbox.item);
+    // }
 
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
@@ -63,16 +63,17 @@
             }
         );*/
 
-        /*        var body = Office.context.mailbox.item.body;
-                // Get the body as text
-                body.getAsync(Office.CoercionType.Text, function (asyncResult) {
-                    if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
-                        // do something with the error
-                    }
-                    else {
-                        $('.result').html(asyncResult.value);
-                    }
-                });*/
+        var body = Office.context.mailbox.item.body;
+        // Get the body as text
+        body.getAsync(Office.CoercionType.Text, function (asyncResult) {
+            if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
+                // do something with the error
+            }
+            else {
+                //$('.result').html(asyncResult.value);
+                document.getElementById("link").innerHTML = asyncResult.value;
+            }
+        });
 
     }
 </script>
