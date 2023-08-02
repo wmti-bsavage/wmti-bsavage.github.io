@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -104,6 +104,7 @@
             // Compare the elements of the array and remove any duplicates
             // Format each element of the array
             // Create a p element and a corresponding copy button for each element in the array
+            document.getElementById("uncPath").innerHTML = "Match found.";
             document.getElementById("numberOfPaths").innerHTML = pathEndingIndexes[0];
 
             // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
