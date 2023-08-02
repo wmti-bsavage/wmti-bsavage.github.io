@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <p>V0.12</p>
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.</p>
     <p></p>
     <p><a id="uncPath" href="http://webermfg.ca">www.webermfg.ca</a></p>
@@ -41,13 +41,13 @@
                 {    
                     var result = asyncResult.value;
                     var searchStr = "Sales&Quoteing";
-                    var newServerName = "file://///wmtinas\\";
+                    var newServerName = "wmtinas\\";
                     
                     // Check if the Sales&Quoteing directory is referenced in the email body
                     if(result.includes(searchStr))
                     {
                         // Find the UNC path
-                        var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 6);
+                        var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 5);
                         // Find the server name within the UNC path 
                         var serverName = uncPath.substring(0, uncPath.indexOf("\\"));
                         // Replace the server name with the new server name
