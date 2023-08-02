@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.13 - Find all UNC paths within an email that contain the designated search string and reformat</p>
+    <p>V0.14</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="CopyToClipboard()">Copy Link</button>
@@ -124,7 +124,18 @@
             }
 
             // TODO: Compare the elements of the array and remove any duplicates
-            
+            var uniquePaths = uncPaths.reduce(function(a,b)
+            {
+                if(a.indexOf(b) < 0)
+                {
+                    a.push(b);
+                }
+
+                return a;
+            }, []);
+
+            console.log("Unique paths: " + uniquePaths.length);
+
             // TODO: Create a p element and a corresponding copy button for each element in the array
 
             document.getElementById("uncPath").innerHTML = "Match found.";
