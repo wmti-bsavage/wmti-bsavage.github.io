@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.12</p>
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -69,8 +69,22 @@
         if(result.includes(searchStr))
         {
             // Determine the number of links in the email body
-            var numberOfPaths = (result.match(/<\\\\/g) || []).length;
-            document.getElementById("numberOfPaths").innerHTML = numberOfPaths;
+            var pathStartingIdentifiers = result.match(/<\\\\/g) || [];
+            var numberOfPaths = pathStartingIdentifiers.length;
+            const pathStartingIndexes = [];
+
+            // Get the index of each link, store each link in an array
+            for(let i = 0; i < numberOfPaths; i++) 
+            {
+                pathStartingIndexes[i] = pathStartingIdentifiers[i].index;
+            }
+            
+            // Compare the elements of the array and remove any duplicates
+            // Format each element of the array
+            // Create a p element and a corresponding copy button for each element in the array
+            document.getElementById("numberOfPaths").innerHTML = pathStartingIndexes[0];
+
+            // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
 
             // Find the UNC path
             var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 5);
