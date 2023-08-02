@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.15</p>
+    <p>V0.14</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -79,7 +79,8 @@
             {
                 pathStartingIndexes[counter] = match.index;
                 counter++;
-                console.log("Starting matches found: " + pathStartingIndexes.length);
+                
+                console.log("Starting matches found: " + pathStartingIndexes.length + " - Position: " + match.index);
             }
 
             var endingRegExp = /.xlsx/g;
@@ -90,18 +91,26 @@
             {
                 pathEndingIndexes[counter] = match.index;
                 counter++;
-                console.log("Ending matches found: " + pathEndingIndexes.length);
+                
+                console.log("Ending matches found: " + pathEndingIndexes.length + " - Position: " + match.index);
             }
             
             // Determine the number of links in the email body
             var numberOfPaths = (result.match(/<\\\\/g) || []).length;
+            
+            console.log("Number of paths: " + numberOfPaths);
+            
             const uncPaths = [];
 
             for(let i = 0; i < numberOfPaths; i++) 
             {
+                console.log("Initiating path building sequence...");
+                
                 uncPaths[i] = result.substring(pathStartingIndexes[i] + 3, pathEndingIndexes[i] + 5);
                 var serverName = uncPaths[i].substring(0, uncPath.indexOf("\\"));
                 uncPaths[i].replace(serverName, newServerName);
+
+                console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
             }
 
             // Compare the elements of the array and remove any duplicates
