@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.15</p>
+    <p>V0.14</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -56,13 +56,13 @@
                 }
                 else 
                 {    
-                    findAndFormatPath(asyncResult);
+                    FindAndFormatPath(asyncResult);
                 }
             });
         }
     }
 
-    function findAndFormatPath(asyncResult) 
+    function FindAndFormatPath(asyncResult) 
     {
         var result = asyncResult.value;
         
@@ -80,7 +80,7 @@
                 counter++;
             }
 
-            var endingRegExp = /.xlsx>/g;
+            var endingRegExp = /lsx>/g;
             const pathEndingIndexes = [];
             counter = 0;
 
