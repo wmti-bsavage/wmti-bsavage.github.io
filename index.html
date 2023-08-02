@@ -11,11 +11,10 @@
 
 <body>
 
-    <p>V0.14</p>
-    <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.</p>
-    <p></p>
+    <p>V0.12 - Find a single UNC path within email, re-format and allow copying to clipboard</p>
+    <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
-    <button onclick="copyToClipboard()">Copy Path</button>
+    <button onclick="copyToClipboard()">Copy Link</button>
     <p id="copyConfirmation"></p>
 
 </body>
@@ -26,23 +25,14 @@
 
     function copyToClipboard() 
     {
+        // Copy path to clipboard
         const copyText = document.getElementById('uncPath').innerText;
         navigator.clipboard.writeText(copyText);
         document.getElementById('copyConfirmation').innerText = "Link Copied!";
-        // const el = document.createElement('text area');
-        // el.value = copyText;
-        // el.setAttribute('readonly', '');
-        // el.style.position = 'absolute';
-        // el.style.left = '-9999px';
-        // document.body.appendChild(el);
-        // el.select();
-        // document.execCommand('copy');
-        // document.body.removeChild(el);
     }
     
     function itemChanged(eventArgs) 
     {
-
         // Update UI based on the new current item
         UpdateTaskPaneUI(Office.context.mailbox.item);
     }
