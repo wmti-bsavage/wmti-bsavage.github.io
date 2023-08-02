@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <p>V0.13</p>
+    <p>V0.12</p>
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
     <p></p>
     <p id="link"></p>
@@ -49,9 +49,9 @@
                         // Find the link
                         var link = result.substring(result.indexOf("<") + 3, result.indexOf(">") + 1);
                         // Find the server name 
-                        // var serverName = link.substring(0, link.indexOf("\\"));
+                        var serverName = link.substring(0, link.indexOf("\\"));
                         // Replace the server name with the new server name
-                        // link = replace(serverName, newServerName);
+                        link = link.replace(serverName, newServerName);
                         
                         document.getElementById("link").innerHTML = link;
                         //var links = [...result.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index)
