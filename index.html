@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    <p>V0.12</p>
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any links pointing to the Sales&Quoting directory.</p>
-    <a href="\\wmtinas\shared\Sales&Quoteing\Quotes\Albany Engineered Composites\Steel\2023\23-1106 Rev2 Zodiac 767 tooling.xlsx"></a>
+    <p></p>
     <p id="link"></p>
 
 </body>
@@ -40,11 +40,22 @@
                 else 
                 {    
                     var result = asyncResult.value;
+                    var searchStr = "Sales&Quoteing";
+                    var newServerName = "\\\\wmtinas\\"
                     
-                    if(result.includes("Sales&Quoteing"))
+                    // Check if the Sales&Quoteing directory is referenced in the email body
+                    if(result.includes(searchStr))
                     {
-                        var link = result.substring(result.indexOf("<"), result.indexOf(">") + 1);
+                        // Find the link
+                        var link = result.substring(result.indexOf("<") + 2, result.indexOf(">"));
+                        // Find the server name 
+                        var serverName = link.substring(0, link.indexOf("\\"));
+                        // Replace the server name with the new server name
+                        link = replace(serverName, newServerName);
+                        
                         document.getElementById("link").innerHTML = link;
+                        //var links = [...result.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index)
+                        //document.getElementById("link").innerHTML = links;
                     }
                     else
                     {
