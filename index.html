@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -23,6 +23,9 @@
 </html>
 
 <script>
+    
+    const searchStr = "Sales&Quoteing";
+    const newServerName = "\\\\wmtinas";
 
     function copyToClipboard() 
     {
@@ -62,8 +65,6 @@
     function findAndFormatPath(asyncResult) 
     {
         var result = asyncResult.value;
-        const searchStr = "Sales&Quoteing";
-        const newServerName = "\\\\wmtinas";
         
         // Check if the Sales&Quoteing directory is referenced in the email body
         if(result.includes(searchStr))
@@ -103,7 +104,7 @@
             // Compare the elements of the array and remove any duplicates
             // Format each element of the array
             // Create a p element and a corresponding copy button for each element in the array
-            document.getElementById("numberOfPaths").innerHTML = uncPaths[1];
+            document.getElementById("numberOfPaths").innerHTML = pathEndingIndexes[0];
 
             // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
 
