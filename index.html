@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -122,6 +122,7 @@
         else
         {
             document.getElementById("uncPath").innerHTML = "No match found.";
+            document.getElementById("numberOfPaths").innerHTML = "";
         }
     }
 
