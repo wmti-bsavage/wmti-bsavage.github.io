@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -108,11 +108,11 @@
             // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
 
             // Find the UNC path
-            var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 5);
+            // var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 5);
             // Find the server name within the UNC path 
-            var serverName = uncPath.substring(0, uncPath.indexOf("\\"));
+            // var serverName = uncPath.substring(0, uncPath.indexOf("\\"));
             // Replace the server name with the new server name
-            uncPath = uncPath.replace(serverName, newServerName);
+            // uncPath = uncPath.replace(serverName, newServerName);
             
             document.getElementById("uncPath").innerHTML = uncPath;
             //var links = [...result.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index)
