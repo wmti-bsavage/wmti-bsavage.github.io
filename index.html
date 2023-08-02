@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.13</p>
+    <p>V0.14</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -69,15 +69,19 @@
         if(result.includes(searchStr))
         {
             // Determine the number of links in the email body
-            var pathStartingIdentifiers = result.match(/<\\\\/g) || [];
-            var numberOfPaths = pathStartingIdentifiers.length;
+            var regExp = /<\\\\/g;
             const pathStartingIndexes = [];
+            var counter = 0;
+
+            while ((match = regExp.exec(result)) != null) 
+            {
+                pathStartingIndexes[counter] = match.index;
+                counter++;
+            }
+            
+            // var numberOfPaths = (result.match(/<\\\\/g) || []).length;
 
             // Get the index of each link, store each link in an array
-            for(let i = 0; i < numberOfPaths; i++) 
-            {
-                pathStartingIndexes[i] = pathStartingIdentifiers[i].index;
-            }
             
             // Compare the elements of the array and remove any duplicates
             // Format each element of the array
