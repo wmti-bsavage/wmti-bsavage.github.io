@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.15</p>
+    <p>V0.16</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -100,6 +100,8 @@
             
             console.log("Number of paths: " + numberOfPaths);
             
+            // Format each element of the array
+            
             const uncPaths = [];
             var serverName = "";
 
@@ -110,7 +112,7 @@
                 uncPaths[i] = result.substring(pathStartingIndexes[i] + 1, pathEndingIndexes[i] + 5);
                 console.log("Substring #" + (i + 1) + " created: " + uncPaths[i]);
 
-                serverName = uncPaths[i].substring(0, uncPaths[i].indexOf("shared"));
+                serverName = uncPaths[i].substring(0, uncPaths[i].indexOf("shared") - 1);
                 console.log("Server name grabbed: " + serverName);
 
                 uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
@@ -118,7 +120,7 @@
             }
 
             // Compare the elements of the array and remove any duplicates
-            // Format each element of the array
+            
             // Create a p element and a corresponding copy button for each element in the array
             document.getElementById("uncPath").innerHTML = "Match found.";
             document.getElementById("numberOfPaths").innerHTML = pathEndingIndexes[0];
