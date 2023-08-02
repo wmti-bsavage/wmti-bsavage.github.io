@@ -68,25 +68,42 @@
         // Check if the Sales&Quoteing directory is referenced in the email body
         if(result.includes(searchStr))
         {
-            // Determine the number of links in the email body
-            var regExp = /<\\\\/g;
+            // Get the index of each link, store each link in an array
+            var startingRegExp = /<\\\\/g;
             const pathStartingIndexes = [];
             var counter = 0;
 
-            while ((match = regExp.exec(result)) != null) 
+            while ((match = startingRegExp.exec(result)) != null) 
             {
                 pathStartingIndexes[counter] = match.index;
                 counter++;
             }
-            
-            // var numberOfPaths = (result.match(/<\\\\/g) || []).length;
 
-            // Get the index of each link, store each link in an array
+            var endingRegExp = /.xlsx>/g;
+            const pathEndingIndexes = [];
+            counter = 0;
+
+            while ((match = endingRegExp.exec(result)) != null) 
+            {
+                pathEndingIndexes[counter] = match.index;
+                counter++;
+            }
             
+            // Determine the number of links in the email body
+            var numberOfPaths = (result.match(/<\\\\/g) || []).length;
+            const uncPaths = [];
+
+            for(let i = 0; i < numberOfPaths; i++) 
+            {
+                uncPaths[i] = result.substring(pathStartingIndexes[i] + 3, pathEndingIndexes[i] + 5);
+                var serverName = uncPaths[i].substring(0, uncPath.indexOf("\\"));
+                uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
+            }
+
             // Compare the elements of the array and remove any duplicates
             // Format each element of the array
             // Create a p element and a corresponding copy button for each element in the array
-            document.getElementById("numberOfPaths").innerHTML = pathStartingIndexes[0];
+            document.getElementById("numberOfPaths").innerHTML = uncPaths[1];
 
             // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
 
