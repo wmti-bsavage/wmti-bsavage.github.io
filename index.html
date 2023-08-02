@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.16</p>
+    <p>V0.17</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="copyToClipboard()">Copy Link</button>
@@ -25,7 +25,7 @@
 <script>
     
     const searchStr = "Sales&Quoteing";
-    const newServerName = "\\\\wmtinas";
+    var newServerName = "\\\\wmtinas";
 
     function copyToClipboard() 
     {
@@ -110,7 +110,7 @@
                 uncPaths[i] = result.substring(pathStartingIndexes[i] + 1, pathEndingIndexes[i] + 5);
                 console.log("Substring #" + (i + 1) + " created: " + uncPaths[i]);
 
-                serverName = uncPaths[i].substring(0, uncPaths[i].indexOf("10"));
+                serverName = uncPaths[i].substring(0, uncPaths[i].indexOf("shared") - 6);
                 console.log("Server name grabbed: " + serverName);
 
                 uncPaths[i].replace(serverName, newServerName);
