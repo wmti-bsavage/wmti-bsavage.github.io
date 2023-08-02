@@ -3,12 +3,15 @@
 <html>
 
 <head>
+
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
 </head>
 
 <body>
-    <p>V0.14</p>
+
+    <p>V0.13</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.</p>
     <p></p>
     <p id="uncPath"></p>
@@ -19,21 +22,23 @@
 </html>
 
 <script>
+
     function copyToClipboard() 
     {
-        var copyText = document.getElementById("uncPath");
+        var copyText = document.getElementById("uncPath").innerHTML;
         copyText.select();
         navigator.clipboard.writeText(copyText.value);
     }
     
-    function itemChanged(eventArgs) {
+    function itemChanged(eventArgs) 
+    {
 
         // Update UI based on the new current item
         UpdateTaskPaneUI(Office.context.mailbox.item);
     }
 
-    function UpdateTaskPaneUI(item) {
-        
+    function UpdateTaskPaneUI(item) 
+    {
         // Assuming that item is always a read item (instead of a compose item).
         if (item != null) {
             
@@ -74,8 +79,8 @@
         }
     }
 
-    Office.onReady((info) => {
-        
+    Office.onReady((info) => 
+    {
         if (info.host === Office.HostType.Outlook) {
 
             // Set up ItemChanged event
