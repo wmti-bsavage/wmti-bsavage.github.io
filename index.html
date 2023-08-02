@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.13 - Find all UNC paths referencing the search string within an email and reformat</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="CopyToClipboard()">Copy Link</button>
@@ -24,7 +24,7 @@
 
 <script>
     
-    const searchStr = "Sales&Quoteing";
+    const searchString = "Sales&Quoteing";
     var newServerName = "\\\\wmtinas";
 
     function CopyToClipboard() 
@@ -68,7 +68,7 @@
         console.log("Initiating sequence...");
         
         // Check if the Sales&Quoteing directory is referenced in the email body
-        if(result.includes(searchStr))
+        if(result.includes(searchString))
         {
             // Get the index of each link, store each link in an array
             var startingRegExp = /<\\\\/g;
@@ -118,28 +118,17 @@
                 if(serverName !== newServerName) 
                 {
                     uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
-                    console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
                 }
+                
+                console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
             }
 
-            // Compare the elements of the array and remove any duplicates
+            // TODO: Compare the elements of the array and remove any duplicates
             
-            // Create a p element and a corresponding copy button for each element in the array
+            // TODO: Create a p element and a corresponding copy button for each element in the array
+
             document.getElementById("uncPath").innerHTML = "Match found.";
             document.getElementById("numberOfPaths").innerHTML = pathEndingIndexes[0];
-
-            // TODO: Only show unique paths (sometimes duplicated in the body from a reply thread)
-
-            // Find the UNC path
-            // var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 5);
-            // Find the server name within the UNC path 
-            // var serverName = uncPath.substring(0, uncPath.indexOf("\\"));
-            // Replace the server name with the new server name
-            // uncPath = uncPath.replace(serverName, newServerName);
-            
-            // document.getElementById("uncPath").innerHTML = uncPath;
-            //var links = [...result.matchAll(new RegExp(searchStr, 'gi'))].map(a => a.index)
-            //document.getElementById("link").innerHTML = links;
         }
         else
         {
