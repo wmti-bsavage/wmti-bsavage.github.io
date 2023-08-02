@@ -47,7 +47,7 @@
                     if(result.includes(searchStr))
                     {
                         // Find the UNC path
-                        var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 1);
+                        var uncPath = result.substring(result.indexOf("<\\\\") + 3, result.indexOf(".xlsx>") + 6);
                         // Find the server name within the UNC path 
                         //var serverName = link.substring(0, link.indexOf("\\"));
                         // Replace the server name with the new server name
