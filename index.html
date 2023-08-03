@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>v0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="CopyToClipboard()">Copy Link</button>
@@ -68,7 +68,7 @@
     function FindAndFormatPath(asyncResult) 
     {
         var result = asyncResult.value;
-        console.log("Initiating sequence...");
+        console.log("Initiating Add-In | v0.14...");
         
         // Check if the Sales&Quoteing directory is referenced in the email body
         if(result.includes(searchString))
@@ -147,13 +147,14 @@
 
             const pElement = document.createElement("p");
             const divElement = document.getElementById("activeBody");
+            document.body.style = "white-space: pre;";
             
             const pElements = [];
             
             // TODO: Create a p element and a corresponding copy button for each element in the array
             for(let i = 0; i < uniquePaths.length; i++)
             {
-                var node = document.createTextNode(uncPaths[i] + "\u000a");
+                var node = document.createTextNode(uncPaths[i] + "\n");
                 pElement.appendChild(node);
                 divElement.appendChild(pElement);
             }
