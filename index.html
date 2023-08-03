@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="CopyToClipboard()">Copy Link</button>
@@ -118,6 +118,12 @@
                 if(serverName !== newServerName) 
                 {
                     uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
+                }
+
+                // Re-format old links with a lower-case "s" on shared
+                if(uncPaths[i].includes("shared")) 
+                {
+                    uncPaths[i] = uncPaths[i].replace("shared", "Shared");
                 }
                 
                 console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
