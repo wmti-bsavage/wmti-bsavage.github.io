@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>v0.15</p>
+    <p>v0.16</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="copyConfirmation"></p>
     <div id="activeBody"></div>
@@ -142,7 +142,8 @@
             console.log("Unique paths: " + uniquePaths.length);
 
             const divElement = document.getElementById("activeBody");
-            const pElement = document.createElement("p");
+            var pElement = document.createElement("p");
+            var buttonId = "";
             
             // TODO: Create a p element and a corresponding copy button for each element in the array
             for(let i = 0; i < uniquePaths.length; i++)
@@ -154,11 +155,13 @@
                 
                 console.log("Creating button element # " + i + "...");
                 var buttonElement = document.createElement("button");
-                var buttonId = "Button" + i;
+                buttonId = "Button" + i;
                 buttonElement.id = buttonId;
                 document.getElementById(buttonId).innerText = "Copy Link!"
-                document.getElementById(buttonId).value = uniquePaths[i];
-                document.getElementById(buttonId).onclick = CopyToClipboard(this);
+                //document.getElementById(buttonId).value = uniquePaths[i];
+                //document.getElementById(buttonId).onclick = CopyToClipboard(this);
+
+                console.log("Button generation complete...");
             }
         }
         else
