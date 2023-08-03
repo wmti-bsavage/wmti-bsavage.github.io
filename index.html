@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>V0.14</p>
+    <p>V0.16</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="uncPath"></p>
     <button onclick="CopyToClipboard()">Copy Link</button>
@@ -153,7 +153,7 @@
             // TODO: Create a p element and a corresponding copy button for each element in the array
             for(let i = 0; i < uniquePaths.length; i++)
             {
-                var node = document.createTextNode(uncPaths[i] + "\n");
+                var node = document.createTextNode(uncPaths[i] + "\n\n");
                 pElement.appendChild(node);
                 divElement.appendChild(pElement);
             }
