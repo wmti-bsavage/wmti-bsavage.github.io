@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>v0.16</p>
+    <p>v0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="copyConfirmation"></p>
     <div id="activeBody"></div>
@@ -65,11 +65,11 @@
                 }
                 else 
                 {    
-                    FindAndFormatPath(asyncResult);
-
                     // Clear previous results
                     document.getElementById("copyConfirmation").innerHTML = "";
                     document.getElementById("activeBody").innerHTML = "";
+                    
+                    FindAndFormatPath(asyncResult);
                 }
             });
         }
