@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>v0.17</p>
+    <p>v0.16</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="copyConfirmation"></p>
     <div id="activeBody"></div>
@@ -25,12 +25,23 @@
     const searchString = "Sales&Quoteing";
     var newServerName = "\\\\wmtinas";
 
-    function CopyToClipboard() 
+    function InitializeButtons() 
     {
-        // Copy path to clipboard
-        navigator.clipboard.writeText("TEST");
-        document.getElementById('copyConfirmation').innerText = "Path copied...";
-        console.log("Path copied...");
+        // Get all of the buttons and add them to a list
+        let buttonList = document.querySelectorAll("button");
+
+        // Add a click event listener to each button
+        buttonList.forEach(function(i) {
+            i.addEventListener("click", function(e) {
+                // Copy the button value (the UNC path) to the clipboard
+                navigator.clipboard.writeText(e.target.value);
+                
+                document.getElementById('copyConfirmation').innerText = "Path copied...";
+                console.log("Path copied...");
+            })
+        })
+
+        console.log("Buttons initialized...");
     }
     
     function ItemChanged(eventArgs) 
@@ -55,6 +66,10 @@
                 else 
                 {    
                     FindAndFormatPath(asyncResult);
+
+                    // Clear previous results
+                    document.getElementById("copyConfirmation").innerHTML = "";
+                    document.getElementById("activeBody").innerHTML = "";
                 }
             });
         }
@@ -142,10 +157,11 @@
 
             console.log("Unique paths: " + uniquePaths.length);
 
+            // Create a p element and a corresponding Copy button for each unique UNC Path
+            
             var divElement = document.getElementById("activeBody");
             var buttonId = "";
             
-            // TODO: Create a p element and a corresponding copy button for each element in the array
             for(let i = 0; i < uniquePaths.length; i++)
             {
                 console.log("Creating p element # " + i + "...");
@@ -166,21 +182,11 @@
                 var button = document.getElementById(buttonId);
                 button.innerText = "Copy";
                 button.value = uniquePaths[i];
-                // button.addEventListener = ("click", CopyToClipboard.bind(this), false);
 
                 console.log("Button generation complete...");
             }
 
-            let buttonList = document.querySelectorAll("button");
-            buttonList.forEach(function(i) {
-                i.addEventListener("click", function(e) {
-                    navigator.clipboard.writeText(e.target.value);
-                    document.getElementById('copyConfirmation').innerText = "Path copied...";
-                    console.log("Path copied...");
-                })
-            })
-
-            console.log("Buttons initialized...");
+            InitializeButtons();
         }
         else
         {
