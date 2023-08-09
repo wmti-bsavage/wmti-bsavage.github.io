@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>v0.16</p>
+    <p>v0.15 - </p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="copyConfirmation"></p>
     <div id="activeBody"></div>
@@ -89,12 +89,12 @@
         var result = asyncResult.value;
         console.log("Initiating Add-In | v0.15...");
         
-        // Check if the Sales&Quoteing directory is referenced in the email body
+        // Check if the Sales&Quoteing path is referenced in the email body
         if(result.includes(searchString))
         {
             console.log("Match found.");
 
-            // Get the index of each link, store each link in an array
+            // Get the index of each path, store each path in an array
             var startingRegExp = /<\\\\/g;
             const pathStartingIndexes = [];
             var counter = 0;
@@ -119,13 +119,12 @@
                 console.log("Ending matches found: " + pathEndingIndexes.length + " - Position: " + matchEnd.index);
             }
             
-            // Determine the number of links in the email body
+            // Determine the number of paths in the email body
             var numberOfPaths = (result.match(/<\\\\/g) || []).length;
             
             console.log("Number of paths: " + numberOfPaths);
             
             // Format each element of the array
-            
             const uncPaths = [];
             var serverName = "";
 
@@ -144,7 +143,7 @@
                     uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
                 }
 
-                // Re-format old links with a lower-case "s" on shared
+                // Re-format casing on shared reference to make all match
                 if(uncPaths[i].includes("shared")) 
                 {
                     uncPaths[i] = uncPaths[i].replace("shared", "Shared");
@@ -153,7 +152,7 @@
                 console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
             }
 
-            // Compare the paths and remove any duplicates (accounts for multiple occurences from reply threads)
+            // Compare the paths and remove any duplicates (to account for multiple occurences from reply threads)
             var uniquePaths = uncPaths.reduce(function(a,b)
             {
                 if(a.indexOf(b) < 0)
@@ -176,6 +175,7 @@
                 console.log("Creating p element # " + i + "...");
                 
                 var pElement = document.createElement("p");
+                // Slice the path to omit the parent directory from the visual element
                 var node = document.createTextNode(uncPaths[i].slice(39) + "\n");
                 pElement.appendChild(node);
                 divElement.appendChild(pElement);
