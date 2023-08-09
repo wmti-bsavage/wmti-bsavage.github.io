@@ -11,7 +11,7 @@
 
 <body>
 
-    <p>v0.14 - Display paths and create buttons to copy them</p>
+    <p>v0.15</p>
     <p>This add-in corrects the formatting of any UNC Paths pointing to the Sales&Quoting directory.<br></p>
     <p id="copyConfirmation"></p>
     <div id="activeBody"></div>
@@ -35,8 +35,9 @@
             i.addEventListener("click", function(e) {
                 // Copy the button value (the UNC path) to the clipboard
                 navigator.clipboard.writeText(e.target.value);
+                e.target.textContent = "Copied...";
                 
-                document.getElementById('copyConfirmation').innerText = "Path copied...";
+                // document.getElementById('copyConfirmation').innerText = "Path copied...";
                 console.log("Path copied...");
             })
         })
