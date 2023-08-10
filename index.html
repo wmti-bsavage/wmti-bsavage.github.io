@@ -21,7 +21,8 @@
 <script>
     
     const searchString = "Sales&Quoteing";
-    var newServerName = "\\\\wmtinas";
+    const newServerName = "\\\\wmtinas";
+    const appVersion = "1.0.0.0";
 
     function InitializeButtons() 
     {
@@ -84,7 +85,7 @@
     function FindAndFormatPath(asyncResult) 
     {
         var result = asyncResult.value;
-        console.log("Initiating Add-In | v1.0.0.0...");
+        console.log("Initiating Add-In: Reformat Sales&Quoteing Links | v" + appVersion + "...");
         
         // Check if the Sales&Quoteing path is referenced in the email body
         if(result.includes(searchString))
@@ -92,7 +93,7 @@
             console.log("Match found.");
 
             // Get the index of each path, store each path in an array
-            var startingRegExp = /<\\\\/g;
+            const startingRegExp = /<\\\\/g;
             const pathStartingIndexes = [];
             var counter = 0;
 
@@ -104,7 +105,7 @@
                 console.log("Starting matches found: " + pathStartingIndexes.length + " - Position: " + matchStart.index);
             }
 
-            var endingRegExp = /.xlsx/g;
+            const endingRegExp = /.xlsx/g;
             const pathEndingIndexes = [];
             counter = 0;
 
@@ -117,7 +118,7 @@
             }
             
             // Determine the number of paths in the email body
-            var numberOfPaths = (result.match(/<\\\\/g) || []).length;
+            const numberOfPaths = (result.match(/<\\\\/g) || []).length;
             
             console.log("Number of paths: " + numberOfPaths);
             
