@@ -1,0 +1,220 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+</head>
+
+<body>
+
+    <p id="matchConfirmation"></p>
+    <div id="activeBody"></div>
+
+</body>
+
+</html>
+
+<script>
+    
+    // ACTION: When deploying changes, please increment the versioning in this file to match the versioning in the xml manifest file
+    const appVersion = "1.0.3";
+    // ACTION: When the server name/address that hosts the Shared drive changes, this variable needs to be changed to reflect that  
+    const newServerName = "\\\\192.0.0.10";
+    
+    // The search string that the script is parsing the email body for to see if it contains an applicable UNC path
+    const searchString = "Sales&Quoteing";
+
+    function InitializeButtons() 
+    {
+        // Get all of the buttons and add them to a list
+        let buttonList = document.querySelectorAll("button");
+
+        // Add a click event listener to each button
+        buttonList.forEach(function(i) {
+            i.addEventListener("click", function(e) {
+                
+                // Set the buttons back to default
+                for(let i = 0; i < buttonList.length; i++)
+                {
+                    buttonList[i].textContent = "Copy";
+                    buttonList[i].style.backgroundColor = "#e7e7e7";
+                }
+
+                // Copy the button value (the UNC path) to the clipboard, change the button text and colour
+                navigator.clipboard.writeText(e.target.value);
+                e.target.textContent = "Copied...";
+                e.target.style.backgroundColor = "#4CAF50";
+                
+                console.log("Path copied...");
+            })
+        })
+
+        console.log("Buttons initialized...");
+    }
+    
+    function ItemChanged(eventArgs) 
+    {
+        // Update Add-in task pane based on the new current email item selected
+        UpdateTaskPaneUI(Office.context.mailbox.item);
+    }
+
+    function UpdateTaskPaneUI(item) 
+    {
+        // Assuming that item is always a read item (instead of a compose item).
+        if (item != null) {
+            
+            var body = Office.context.mailbox.item.body;
+            // Get the body as text
+            body.getAsync(Office.CoercionType.Text, function (asyncResult) 
+            {
+                if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) 
+                {
+                    // do something with the error
+                }
+                else 
+                {    
+                    // Clear previous results
+                    document.getElementById("matchConfirmation").innerHTML = "";
+                    document.getElementById("activeBody").innerHTML = "";
+                    
+                    FindAndFormatPath(asyncResult);
+                }
+            });
+        }
+    }
+
+    function FindAndFormatPath(asyncResult) 
+    {
+        var result = asyncResult.value;
+        console.log("Initiating Add-In: Reformat Sales&Quoteing Links | v" + appVersion + "...");
+        
+        // Check if the searchString exists within the email body
+        if(result.includes(searchString))
+        {
+            console.log("Match found.");
+
+            // Get the index of each path, store in an array
+            const startingRegExp = /<\\\\/g;
+            const pathStartingIndexes = [];
+            var counter = 0;
+
+            while ((matchStart = startingRegExp.exec(result)) != null) 
+            {
+                pathStartingIndexes[counter] = matchStart.index;
+                counter++;
+                
+                console.log("Starting matches found: " + pathStartingIndexes.length + " - Position: " + matchStart.index);
+            }
+
+            const endingRegExp = /.xlsx/g;
+            const pathEndingIndexes = [];
+            counter = 0;
+
+            while ((matchEnd = endingRegExp.exec(result)) != null) 
+            {
+                pathEndingIndexes[counter] = matchEnd.index;
+                counter++;
+                
+                console.log("Ending matches found: " + pathEndingIndexes.length + " - Position: " + matchEnd.index);
+            }
+            
+            // Determine the number of paths in the email body
+            const numberOfPaths = (result.match(/<\\\\/g) || []).length;
+            
+            console.log("Number of paths: " + numberOfPaths);
+            
+            // Parse and format each path, store in an array
+            const uncPaths = [];
+            var serverName = "";
+
+            for(let i = 0; i < numberOfPaths; i++) 
+            {
+                console.log("Initiating path building sequence...");
+                
+                uncPaths[i] = result.substring(pathStartingIndexes[i] + 1, pathEndingIndexes[i] + 5);
+                console.log("Substring #" + (i + 1) + " created: " + uncPaths[i]);
+
+                serverName = uncPaths[i].substring(0, uncPaths[i].indexOf("hared") - 2);
+                console.log("Server name grabbed: " + serverName);
+
+                if(serverName !== newServerName) 
+                {
+                    uncPaths[i] = uncPaths[i].replace(serverName, newServerName);
+                }
+
+                // Re-format casing on drive name to ensure all paths match
+                if(uncPaths[i].includes("shared")) 
+                {
+                    uncPaths[i] = uncPaths[i].replace("shared", "Shared");
+                }
+                
+                console.log("UNC Path #" + (i + 1) + ": " + uncPaths[i]);
+            }
+
+            // Compare the paths and remove any duplicates (to account for multiple occurences from reply threads)
+            var uniquePaths = uncPaths.reduce(function(a,b)
+            {
+                if(a.indexOf(b) < 0)
+                {
+                    a.push(b);
+                }
+
+                return a;
+            }, []);
+
+            console.log("Unique paths: " + uniquePaths.length);
+
+            // Create a p element and a corresponding Copy button for each unique UNC Path
+            var divElement = document.getElementById("activeBody");
+            var buttonId = "";
+            
+            for(let i = 0; i < uniquePaths.length; i++)
+            {
+                console.log("Creating p element # " + i + "...");
+                
+                var pElement = document.createElement("p");
+                // Slice the path to omit the parent directory from the visual element
+                var node = document.createTextNode(uncPaths[i].slice(39) + "\n");
+                pElement.appendChild(node);
+                divElement.appendChild(pElement);
+                
+                console.log("Creating button element # " + i + "...");
+                
+                var buttonElement = document.createElement("button");
+                divElement.appendChild(buttonElement);
+                
+                buttonId = "btn" + i.toString();
+                buttonElement.id = buttonId;
+            
+                var button = document.getElementById(buttonId);
+                button.innerText = "Copy";
+                button.value = uniquePaths[i];
+
+                console.log("Button generation complete...");
+            }
+
+            InitializeButtons();
+        }
+        else
+        {
+            document.getElementById("matchConfirmation").innerHTML = "No match found.";
+            console.log("No match found.");
+        }
+    }
+
+    Office.onReady((info) => 
+    {
+        if (info.host === Office.HostType.Outlook) {
+
+            // Set up ItemChanged event
+            Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, ItemChanged);
+
+            UpdateTaskPaneUI(Office.context.mailbox.item);
+        }
+    });
+
+</script>
